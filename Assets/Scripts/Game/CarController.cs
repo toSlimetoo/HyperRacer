@@ -56,5 +56,12 @@ public class CarController : MonoBehaviour
 
             other.gameObject.SetActive(false);
         }
+        else if (other.gameObject.CompareTag("Enemy"))
+        {
+            gas -= 100;
+            
+            other.gameObject.SetActive(false);
+        }
+        
     }
 }

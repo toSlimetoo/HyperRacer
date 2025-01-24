@@ -8,7 +8,7 @@ public class RoadController : MonoBehaviour
 {
     
     [SerializeField] private GameObject[] gasObjects;
-
+    [SerializeField] private GameObject[] enemyObjects;
 
     private void OnEnable()
     {
@@ -22,6 +22,12 @@ public class RoadController : MonoBehaviour
         {
             gasObject.SetActive(false);
         }
+
+        foreach (var enemyObject in enemyObjects)
+        {
+            enemyObject.SetActive(false);
+        }
+        
     }
 
 
@@ -43,6 +49,11 @@ public class RoadController : MonoBehaviour
             {
                 gasObject.SetActive(false);
             }
+            foreach (var enemyObject in enemyObjects)
+            {
+                enemyObject.SetActive(false);
+            }
+            
         }
         
     }
@@ -51,6 +62,13 @@ public class RoadController : MonoBehaviour
     {
         int index = Random.Range(0, gasObjects.Length);
         gasObjects[index].SetActive(true);
+    }
+
+    public void SpawnEnemy()
+    {
+        int index = Random.Range(0, gasObjects.Length);
+        enemyObjects[index].SetActive(true);
+        
     }
     
     
