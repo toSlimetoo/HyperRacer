@@ -10,6 +10,12 @@ public class RoadController : MonoBehaviour
     [SerializeField] private GameObject[] gasObjects;
 
 
+    private void OnEnable()
+    {
+        
+    }
+
+
     private void Start()
     {
         foreach (var gasObject in gasObjects)
@@ -33,7 +39,10 @@ public class RoadController : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             GameManager.Instance.DestroyRoad(gameObject);
-            
+            foreach (var gasObject in gasObjects)
+            {
+                gasObject.SetActive(false);
+            }
         }
         
     }
