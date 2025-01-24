@@ -11,7 +11,7 @@ public class GameManager : MonoBehaviour
    
    [SerializeField]private MoveButton leftMoveButton;
    [SerializeField]private MoveButton rightMoveButton;
-   [SerializeField] private TMP_Text gasText;
+   [SerializeField]private TMP_Text gasText;
    [SerializeField]private GameObject startPanelPrefab;
    [SerializeField]private GameObject endPanelPrefab;
    
@@ -213,6 +213,11 @@ public class GameManager : MonoBehaviour
        {
            road.GetComponent<RoadController>().SpawnGas();
            
+       }
+
+       if (_roadIndex > 0 && _roadIndex % 3 == 0)
+       {
+           road.GetComponent<RoadController>().SpawnEnemy();
        }
        
        _activeRoads.Add(road);
