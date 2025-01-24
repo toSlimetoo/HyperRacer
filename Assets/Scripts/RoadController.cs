@@ -1,12 +1,24 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class RoadController : MonoBehaviour
 {
     
-    
-    
+    [SerializeField] private GameObject[] gasObjects;
+
+
+    private void Start()
+    {
+        foreach (var gasObject in gasObjects)
+        {
+            gasObject.SetActive(false);
+        }
+    }
+
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
@@ -24,6 +36,12 @@ public class RoadController : MonoBehaviour
             
         }
         
+    }
+
+    public void SpawnGas()
+    {
+        int index = Random.Range(0, gasObjects.Length);
+        gasObjects[index].SetActive(true);
     }
     
     

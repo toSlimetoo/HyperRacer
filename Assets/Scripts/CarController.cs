@@ -6,7 +6,7 @@ using UnityEngine;
 public class CarController : MonoBehaviour
 {
 
-    [SerializeField]private int gas = 100;
+    [SerializeField]private int gas = 1000;
     [SerializeField]private float moveSpeed = 1f;
     
     public int Gas
@@ -29,7 +29,7 @@ public class CarController : MonoBehaviour
             yield return new WaitForSeconds(1f);
             
         }
-        
+        GameManager.Instance.EndGame();
         
     }
     
@@ -37,7 +37,7 @@ public class CarController : MonoBehaviour
     public void Move(float direction)
     {
         transform.Translate(Vector3.right * (direction * Time.deltaTime));
-        transform.position = new Vector3(Mathf.Clamp(transform.position.x,-2.0f,2.0f), 0, transform.position.z);
+        transform.position = new Vector3(Mathf.Clamp(transform.position.x,-1.5f,1.5f), 0, transform.position.z);
         
     }
 
@@ -48,6 +48,7 @@ public class CarController : MonoBehaviour
         {
             gas += 30;
 
+            other.gameObject.SetActive(false);
         }
     }
 }

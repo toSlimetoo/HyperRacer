@@ -23,6 +23,9 @@ public class GameManager : MonoBehaviour
    
    private List<GameObject> _activeRoads = new List<GameObject>();
 
+   private int _roadIndex;
+   
+   
    
    public enum State
    {
@@ -58,24 +61,38 @@ public class GameManager : MonoBehaviour
        {
            _instance = this;
        }
-       
+       Time.timeScale = 5f;
    }
    
    private void Start()
    {
       InitializeRoadPool();
-       
+      
+      GameState = State.Start;
       StartGame();
    }
 
    private void Update()
    {
-       foreach (var activeRoad in _activeRoads)
+
+       switch (GameState)
        {
-           activeRoad.transform.Translate(Vector3.back * Time.deltaTime);
+           case State.Start:
+               break;
+           case State.Play:
+           
+           foreach (var activeRoad in _activeRoads)
+           {
+               activeRoad.transform.Translate(Vector3.back * Time.deltaTime);
+               
+           }
+           if(_carController != null) gasText.text=_carController.Gas.ToString();
+               break;
+           
+           case State.End:
+               break;
            
        }
-       if(_carController != null) gasText.text=_carController.Gas.ToString();
        
    }
 
@@ -93,8 +110,27 @@ public class GameManager : MonoBehaviour
        
        rightMoveButton.OnMoveButtonDown += () => _carController.Move(1f);
        
+       
+       //게임 상태 play 변경
+       GameState = State.Play;
 
 
+   }
+
+   public void EndGame()
+   {
+       GameState = State.End;
+       
+       Destroy(_carController.gameObject);
+
+       foreach (var activeRoad in _activeRoads)
+       {
+           activeRoad.SetActive(false);
+           
+       }
+       
+       
+       
    }
 
    #region 도로 생성 및 관리
@@ -114,23 +150,33 @@ public class GameManager : MonoBehaviour
    
    public void SpawnRoad(Vector3 position)
    {
+       GameObject road;
+       
+       
        if (_roadPool.Count > 0)
        {
-           GameObject road = _roadPool.Dequeue();
+           road = _roadPool.Dequeue();
            road.transform.position = position;
            road.SetActive(true);
            
-           _activeRoads.Add(road);
+           
        }
        else
        {
-           GameObject road = Instantiate(carPrefab, position, Quaternion.identity);
+           road = Instantiate(carPrefab, position, Quaternion.identity);
+           
+       }
+
+       if (_roadIndex > 0 && _roadIndex % 2 == 0)
+       {
+           road.GetComponent<RoadController>().SpawnGas();
            
        }
        
-       
-       
-       
+       _activeRoads.Add(road);
+       _roadIndex++;
+
+
    }
 
    public void DestroyRoad(GameObject road)
