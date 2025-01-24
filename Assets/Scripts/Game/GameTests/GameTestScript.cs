@@ -69,18 +69,29 @@ public class GameTestScript
             
             if (Physics.Raycast(leftPosition, rayDirection, out RaycastHit hit, rayDistance, LayerMask.GetMask("Enemy")))
             {
-                Debug.Log("left");
-                DodgeCar(hit.point);
+                if (Mathf.Abs(hit.point.x - _carController.transform.position.x) <= 1f)
+                {
+                    Debug.Log("left");
+                    DodgeCar(hit.point);
+                }
+                
             }
             else if (Physics.Raycast(rightPosition, rayDirection, out hit, rayDistance, LayerMask.GetMask("Enemy")))
             {
-                Debug.Log("right");
-                DodgeCar(hit.point);
+                if (Mathf.Abs(hit.point.x - _carController.transform.position.x) <= 1f)
+                {
+                    Debug.Log("right");
+                    DodgeCar(hit.point);
+                }
+                
             }
             else if(Physics.Raycast(centerPosition, rayDirection, out hit, rayDistance, LayerMask.GetMask("Enemy")))
             {
-                Debug.Log("center");
-                DodgeCar(hit.point);
+                if (Mathf.Abs(hit.point.x - _carController.transform.position.x) <= 0.6f)
+                {
+                    Debug.Log("right");
+                    DodgeCar(hit.point);
+                }
             }
             else if (Physics.Raycast(leftPosition, rayDirection, out hit, rayDistance, LayerMask.GetMask("Gas")))
             {
@@ -200,8 +211,17 @@ public class GameTestScript
         }
         else if (targetPosition.x >= 0f)
         {
-            MoveButtonDown(_rightMoveButton);
-            MoveButtonUp(_leftMoveButton);
+            if (_carController.transform.position.x <= targetPosition.x)
+            {
+                MoveButtonDown(_leftMoveButton);
+                MoveButtonUp(_rightMoveButton);
+            }
+            else
+            {
+                MoveButtonDown(_rightMoveButton);
+                MoveButtonUp(_leftMoveButton);
+                
+            }
         }
         
             
