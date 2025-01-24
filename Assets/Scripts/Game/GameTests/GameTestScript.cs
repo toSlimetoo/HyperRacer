@@ -52,11 +52,11 @@ public class GameTestScript
         _rightMoveButton = GameObject.Find("RightMoveButton");
         Assert.IsNotNull(_rightMoveButton, "Right Button is null");
         
-        Vector3 leftPosition = new Vector3(-1f, 0.2f, -6f);
-        Vector3 rightPosition = new Vector3(1f, 0.2f, -6f);
-        Vector3 centerPosition = new Vector3(0, 0.2f, -6f);
+        Vector3 leftPosition = new Vector3(-1f, 0.2f, -5f);
+        Vector3 rightPosition = new Vector3(1f, 0.2f, -5f);
+        Vector3 centerPosition = new Vector3(0, 0.2f, -5f);
         
-        float rayDistance = 15f;
+        float rayDistance = 5f;
         Vector3 rayDirection = Vector3.forward;
         
         float elapsedTime = 0f;
@@ -67,23 +67,22 @@ public class GameTestScript
         {
 
             
+            
             if (Physics.Raycast(leftPosition, rayDirection, out RaycastHit hit, rayDistance, LayerMask.GetMask("Enemy")))
             {
-                if (Mathf.Abs(hit.point.x - _carController.transform.position.x) <= 1f)
+                if (Mathf.Abs(hit.point.x - _carController.transform.position.x) <= 0.6f)
                 {
                     Debug.Log("left");
                     DodgeCar(hit.point);
                 }
-                
             }
             else if (Physics.Raycast(rightPosition, rayDirection, out hit, rayDistance, LayerMask.GetMask("Enemy")))
             {
-                if (Mathf.Abs(hit.point.x - _carController.transform.position.x) <= 1f)
+                if (Mathf.Abs(hit.point.x - _carController.transform.position.x) <= 0.6f)
                 {
                     Debug.Log("right");
                     DodgeCar(hit.point);
                 }
-                
             }
             else if(Physics.Raycast(centerPosition, rayDirection, out hit, rayDistance, LayerMask.GetMask("Enemy")))
             {
@@ -191,7 +190,7 @@ public class GameTestScript
 
     private void DodgeCar(Vector3 targetPosition)
     {
-        if (Mathf.Abs(targetPosition.x - _carController.transform.position.x) >= 1f)
+        if (Mathf.Abs(targetPosition.x - _carController.transform.position.x) >= 0.6f)
         {
             MoveButtonUp(_rightMoveButton);
             MoveButtonUp(_leftMoveButton);
