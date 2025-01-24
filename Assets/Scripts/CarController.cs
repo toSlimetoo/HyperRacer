@@ -23,10 +23,11 @@ public class CarController : MonoBehaviour
         while (true)
         {
             gas -= 10;
-            if(gas <= 0)
-                break;
+            
             
             yield return new WaitForSeconds(1f);
+            if(gas <= 0)
+                break;
             
         }
         GameManager.Instance.EndGame();
@@ -36,8 +37,13 @@ public class CarController : MonoBehaviour
     
     public void Move(float direction)
     {
-        transform.Translate(Vector3.right * (direction * Time.deltaTime));
-        transform.position = new Vector3(Mathf.Clamp(transform.position.x,-1.5f,1.5f), 0, transform.position.z);
+        
+        
+            transform.Translate(Vector3.right * (direction * Time.deltaTime));
+            transform.position = new Vector3(Mathf.Clamp(transform.position.x,-1.5f,1.5f), 0, transform.position.z);
+            
+            
+            
         
     }
 

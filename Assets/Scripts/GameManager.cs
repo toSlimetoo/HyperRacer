@@ -12,6 +12,11 @@ public class GameManager : MonoBehaviour
    [SerializeField]private MoveButton leftMoveButton;
    [SerializeField]private MoveButton rightMoveButton;
    [SerializeField] private TMP_Text gasText;
+   [SerializeField]private GameObject startPanelPrefab;
+   [SerializeField]private GameObject endPanelPrefab;
+   
+   [SerializeField]private Transform canvasTransform;
+   
    
    
    private CarController _carController;
@@ -66,10 +71,13 @@ public class GameManager : MonoBehaviour
    
    private void Start()
    {
-      InitializeRoadPool();
+      
       
       GameState = State.Start;
-      StartGame();
+      
+
+      ShowStartPanel();
+
    }
 
    private void Update()
@@ -100,6 +108,9 @@ public class GameManager : MonoBehaviour
    private void StartGame()
    {
 
+       _roadIndex = 0;
+       InitializeRoadPool();
+
        SpawnRoad(Vector3.zero);
        
        
@@ -129,10 +140,41 @@ public class GameManager : MonoBehaviour
            
        }
        
-       
+       ShowEndPanel();
        
    }
 
+   #region UI
+
+
+   public void ShowStartPanel()
+   {
+       StartPanelController startPanelController =
+           Instantiate(startPanelPrefab, canvasTransform).GetComponent<StartPanelController>();
+       startPanelController.OnStartButtonClick += () =>
+       {
+            StartGame();
+            Destroy(startPanelController.gameObject);
+       };
+
+   }
+
+   private void ShowEndPanel()
+   {
+       StartPanelController endPanelController = Instantiate(endPanelPrefab, canvasTransform).GetComponent<StartPanelController>();
+       endPanelController.OnStartButtonClick += () =>
+       {
+           
+           Destroy(endPanelController.gameObject);
+           ShowStartPanel();
+       };
+   }
+   
+
+   #endregion
+   
+   
+   
    #region 도로 생성 및 관리
 
    private void InitializeRoadPool()
